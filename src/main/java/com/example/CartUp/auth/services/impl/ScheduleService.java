@@ -12,6 +12,7 @@ public class ScheduleService {
     }
     @Scheduled(cron = "0 0 3 * * MON")
     public void deleteInvalidRefreshTokens() {
+        System.out.println("omar im deleting a token");
         refreshTokenService.deleteInvalidRefreshTokens();
 
     }

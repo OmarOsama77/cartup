@@ -79,8 +79,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (isRefreshTokenExpired) {
             throw new InvalidRefreshTokenException();
         } else {
-
-
             UUID userId = refreshTokenService.extractUserIdFromToken(request.getToken());
             String userEmail = userService.findUserEmailById(userId);
             String accessToken = jwtService.generateToken(userEmail);
