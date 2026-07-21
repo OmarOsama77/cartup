@@ -1,4 +1,4 @@
-package com.example.CartUp.shared.entities;
+package com.example.CartUp.auth.entities;
 
 import com.example.CartUp.auth.enums.Role;
 import jakarta.persistence.*;

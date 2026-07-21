@@ -2,7 +2,8 @@ package com.example.CartUp.auth.controllers;
 
 import com.example.CartUp.auth.dtos.login.LoginRequest;
 import com.example.CartUp.auth.dtos.login.LoginResponse;
-import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenDto;
+import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenRequest;
+import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenResponse;
 import com.example.CartUp.auth.dtos.register.RegisterRequest;
 import com.example.CartUp.auth.dtos.register.RegisterResponse;
 import com.example.CartUp.auth.services.AuthenticationService;
@@ -33,7 +34,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<RefreshTokenDto> refresh(@RequestBody RefreshTokenDto request){
+    public ResponseEntity<RefreshTokenResponse> refresh(@RequestBody RefreshTokenRequest request){
         return ResponseEntity.ok(authenticationService.refreshToken(request));
     }
 

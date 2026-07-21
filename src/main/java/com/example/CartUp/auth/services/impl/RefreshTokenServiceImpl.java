@@ -1,15 +1,16 @@
 package com.example.CartUp.auth.services.impl;
 
 import com.example.CartUp.auth.entities.RefreshToken;
+import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
 import com.example.CartUp.auth.repositories.RefreshTokenRepository;
 import com.example.CartUp.auth.repositories.UserRepository;
 import com.example.CartUp.auth.services.RefreshTokenService;
-import com.example.CartUp.shared.entities.User;
+import com.example.CartUp.auth.entities.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -38,23 +39,31 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
 
         return refreshToken.getToken();
+
     }
 
 
     @Override
-    public RefreshToken verifyExpiration(String token) {
+    public boolean isRefreshTokenExpired(String token) {
         RefreshToken refreshToken = refreshRepository.findByToken(token).orElseThrow();
         if (refreshToken.getExpiryDate().compareTo(Instant.now()) < 0) {
 
+
             refreshRepository.delete(refreshToken);
-            throw new RuntimeException("Refresh token is expired");
+            return true;
         }
-        return refreshToken;
+        return false;
     }
+
 
     @Override
     public void deleteInvalidRefreshTokens() {
-       refreshRepository.deleteExpiredTokens(Instant.now());
+        refreshRepository.deleteExpiredTokens(Instant.now());
+    }
+
+    @Override
+    public UUID extractUserIdFromToken(String token) {
+        return refreshRepository.findUserIdByToken(token).orElseThrow(() -> new UsernameNotFoundException("d"));
     }
 
 

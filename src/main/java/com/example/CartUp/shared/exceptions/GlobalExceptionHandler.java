@@ -1,5 +1,6 @@
 package com.example.CartUp.shared.exceptions;
 
+import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
 import com.example.CartUp.auth.exceptions.LoginFailedException;
 import com.example.CartUp.auth.exceptions.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String,String>> loginFailed(
             LoginFailedException exception
     ){
+        Map<String,String> error = new HashMap<>();
+        error.put("error",exception.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+    @ExceptionHandler(InvalidRefreshTokenException.class)
+    public ResponseEntity<Map<String,String>> refresh(InvalidRefreshTokenException exception){
         Map<String,String> error = new HashMap<>();
         error.put("error",exception.getMessage());
         return ResponseEntity

@@ -1,6 +1,5 @@
 package com.example.CartUp.auth.entities;
 
-import com.example.CartUp.shared.entities.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
