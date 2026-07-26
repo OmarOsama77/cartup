@@ -16,7 +16,7 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken,Long>
     Optional<RefreshToken> findByToken(String token);
 
     @Modifying
-    @Transactional
+
     @Query(value = "delete from refresh_tokens where expiry_date < :now", nativeQuery = true)
     void deleteExpiredTokens(@Param("now") Instant now);
 

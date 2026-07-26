@@ -7,6 +7,7 @@ import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenResponse;
 import com.example.CartUp.auth.dtos.register.RegisterRequest;
 import com.example.CartUp.auth.dtos.register.RegisterResponse;
 import com.example.CartUp.auth.services.AuthenticationService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -15,35 +15,30 @@ import com.example.CartUp.auth.security.JwtService;
 import com.example.CartUp.auth.services.AuthenticationService;
 import com.example.CartUp.auth.services.RefreshTokenService;
 import com.example.CartUp.auth.exceptions.UserAlreadyExistException;
-import com.example.CartUp.auth.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public AuthenticationServiceImpl(UserService userService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, RefreshTokenService refreshTokenService) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.refreshTokenService = refreshTokenService;
-    }
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
 
-        if (userService.isUserExistByEmail(request.getEmail())) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserAlreadyExistException(request.getEmail());
         }
         User user = User.builder()
@@ -53,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.USER)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
-        userService.saveUser(user);
+        userRepository.save(user);
         return RegisterResponse.builder().message("Account added Successfully").build();
     }
 
@@ -80,7 +75,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InvalidRefreshTokenException();
         } else {
             UUID userId = refreshTokenService.extractUserIdFromToken(request.getToken());
-            String userEmail = userService.findUserEmailById(userId);
+            String userEmail =  userRepository.findUserEmailById(userId).orElseThrow(()-> new UsernameNotFoundException(""));
             String accessToken = jwtService.generateToken(userEmail);
             return RefreshTokenResponse.builder().accessToken(accessToken).refreshToken(request.getToken()).build();
         }
