@@ -40,13 +40,12 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public MessageResponse deleteSubCategory(Long subCategoryId) {
+    public void deleteSubCategory(Long subCategoryId) {
         //check if subCatId is there
         if(!subCategoryRepository.existsById(subCategoryId)){
             throw new SubCategoryNotFoundException(subCategoryId);
         }
         //else we can delete from db
         subCategoryRepository.deleteById(subCategoryId);
-        return MessageResponse.builder().message("Sub category deleted successfully").build();
     }
 }

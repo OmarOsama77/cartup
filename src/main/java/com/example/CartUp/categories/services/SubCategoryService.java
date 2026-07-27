@@ -5,5 +5,5 @@ import com.example.CartUp.shared.dto.MessageResponse;
 
 public interface SubCategoryService {
     MessageResponse uploadSubCategory(UploadSubCategoryRequest request,Long categoryId);
-    MessageResponse deleteSubCategory(Long subCategoryId);
+    void deleteSubCategory(Long subCategoryId);
 }

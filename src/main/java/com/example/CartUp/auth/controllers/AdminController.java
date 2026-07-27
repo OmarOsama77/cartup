@@ -41,7 +41,7 @@ public class AdminController {
 
     @DeleteMapping("/admin/register/id")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<DeleteUserResponse> adminDelete(
+    public ResponseEntity<DeleteUserResponse> deleteAdmin(
             @PathVariable UUID id
     ) {
         return ResponseEntity.ok(service.deleteUser(id));

@@ -28,10 +28,11 @@ public class SubCategoryController {
                 service.uploadSubCategory(request, categoryId));
     }
 
-    @DeleteMapping("/admin/categories/{subCategoryId}")
-    public ResponseEntity<MessageResponse> deleteSubCat(
+    @DeleteMapping("/admin/categories/subcategories/{subCategoryId}")
+    public ResponseEntity<Void> deleteSubCat(
             @PathVariable Long subCategoryId
     ) {
-        return ResponseEntity.ok(service.deleteSubCategory(subCategoryId));
+        service.deleteSubCategory(subCategoryId);
+        return ResponseEntity.noContent().build();
     }
 }
