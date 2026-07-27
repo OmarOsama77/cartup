@@ -1,5 +1,6 @@
 package com.example.CartUp.auth.services.impl;
 
+import com.example.CartUp.auth.dtos.delete_user.DeleteUserResponse;
 import com.example.CartUp.auth.dtos.login.LoginRequest;
 import com.example.CartUp.auth.dtos.login.LoginResponse;
 import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenRequest;
@@ -10,6 +11,7 @@ import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
 import com.example.CartUp.auth.exceptions.LoginFailedException;
 import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.auth.enums.Role;
+import com.example.CartUp.auth.exceptions.UserNotFoundException;
 import com.example.CartUp.auth.repositories.UserRepository;
 import com.example.CartUp.auth.security.JwtService;
 import com.example.CartUp.auth.services.AuthenticationService;
@@ -36,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public RegisterResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request,Role role) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserAlreadyExistException(request.getEmail());
@@ -45,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstName(request.getFirstName())
                 .secondName(request.getSecondName())
                 .email(request.getEmail())
-                .role(Role.USER)
+                .role(role)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         userRepository.save(user);
@@ -79,6 +81,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String accessToken = jwtService.generateToken(userEmail);
             return RefreshTokenResponse.builder().accessToken(accessToken).refreshToken(request.getToken()).build();
         }
+    }
+
+    @Override
+    public DeleteUserResponse deleteUser(UUID userId) {
+        //First make sure this user is in db
+        if(!userRepository.existsById(userId)){
+            throw new UserNotFoundException();
+        }
+        userRepository.deleteById(userId);
+
+        return DeleteUserResponse.builder().message("User deleted successfully").build();
     }
 
 }

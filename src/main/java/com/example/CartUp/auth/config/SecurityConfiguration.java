@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     private JwtAuthFilter jwtAuthFilter;
 
     public final String [] publicEndpoints={
-            "/register","/login","/refresh"
+            "/register","/login","/refresh","/admin/login"
     };
 
     public SecurityConfiguration(JwtAuthFilter jwtAuthFilter){

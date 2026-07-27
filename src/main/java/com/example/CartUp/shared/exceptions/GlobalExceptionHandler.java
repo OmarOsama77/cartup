@@ -3,6 +3,8 @@ package com.example.CartUp.shared.exceptions;
 import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
 import com.example.CartUp.auth.exceptions.LoginFailedException;
 import com.example.CartUp.auth.exceptions.UserAlreadyExistException;
+import com.example.CartUp.auth.exceptions.UserNotFoundException;
+import com.example.CartUp.categories.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,4 +62,45 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(error);
     }
+
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryAlreadyExists(
+            CategoryAlreadyExistsException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(errorResponse);
+    }
+
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(
+            CategoryNotFoundException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(errorResponse);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(
+            UserNotFoundException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(errorResponse);
+    }
+
+    @ExceptionHandler(SubCategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleSubCatAlreadyExistsException(
+            SubCategoryAlreadyExistsException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(errorResponse);
+    }
+    @ExceptionHandler(SubCategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSubCategoryNotFoundException(
+            SubCategoryNotFoundException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(errorResponse);
+    }
+
 }

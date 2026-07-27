@@ -1,18 +1,19 @@
 package com.example.CartUp.auth.controllers;
 
+import com.example.CartUp.auth.dtos.delete_user.DeleteUserResponse;
 import com.example.CartUp.auth.dtos.login.LoginRequest;
 import com.example.CartUp.auth.dtos.login.LoginResponse;
 import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenRequest;
 import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenResponse;
 import com.example.CartUp.auth.dtos.register.RegisterRequest;
 import com.example.CartUp.auth.dtos.register.RegisterResponse;
+import com.example.CartUp.auth.enums.Role;
 import com.example.CartUp.auth.services.AuthenticationService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 public class AuthenticationController {
@@ -26,7 +27,7 @@ public class AuthenticationController {
     public ResponseEntity<RegisterResponse> register(
            @Valid @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        return ResponseEntity.ok(authenticationService.register(request, Role.USER));
     }
 
     @PostMapping("/login")
@@ -37,6 +38,11 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<RefreshTokenResponse> refresh(@RequestBody RefreshTokenRequest request){
         return ResponseEntity.ok(authenticationService.refreshToken(request));
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable UUID id){
+        return ResponseEntity.ok(authenticationService.deleteUser(id));
     }
 
 

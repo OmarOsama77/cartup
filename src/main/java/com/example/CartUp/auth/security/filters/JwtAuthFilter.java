@@ -1,6 +1,8 @@
 package com.example.CartUp.auth.security.filters;
 
+import com.example.CartUp.auth.exceptions.UserNotFoundException;
 import com.example.CartUp.auth.security.JwtService;
+import com.example.CartUp.categories.exceptions.InvalidAccessTokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,21 +38,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
         String token = authHeader.substring(7);
-        String userEmail = jwtService.extractUserEmail(token);
 
-        if(userEmail!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-            if(jwtService.isAccessTokenValid(token,userDetails)){
-                //now generate a new token
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            String userEmail = jwtService.extractUserEmail(token);
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+                if (jwtService.isAccessTokenValid(token, userDetails)) {
+                    //now generate a new token
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
-        }
-        filterChain.doFilter(request,response);
 
+            filterChain.doFilter(request, response);
+        }catch (UserNotFoundException e){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+        }
     }
 }
