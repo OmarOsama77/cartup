@@ -4,6 +4,8 @@ import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
 import com.example.CartUp.auth.exceptions.LoginFailedException;
 import com.example.CartUp.auth.exceptions.UserAlreadyExistException;
 import com.example.CartUp.auth.exceptions.UserNotFoundException;
+import com.example.CartUp.brands.exceptions.BrandAlreadyExistsException;
+import com.example.CartUp.brands.exceptions.BrandNotFoundException;
 import com.example.CartUp.categories.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -103,4 +105,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(errorResponse);
     }
 
+    @ExceptionHandler(BrandAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleBrandAlreadyExistsException(
+            BrandAlreadyExistsException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(errorResponse);
+    }
+
+
+    @ExceptionHandler(BrandNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(
+            BrandNotFoundException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(errorResponse);
+    }
 }

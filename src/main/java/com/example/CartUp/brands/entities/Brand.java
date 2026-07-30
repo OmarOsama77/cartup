@@ -1,14 +1,27 @@
 package com.example.CartUp.brands.entities;
 
+import com.example.CartUp.products.entities.Product;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Data
 @Table(name = "brands")
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long brand_id;
+    private Long id;
 
-    private String brand_name;
+    private String name;
 
+    @OneToMany(mappedBy = "brand")
+    private List<Product> products;
 }

@@ -24,4 +24,6 @@ public class SubCategory {
     @JoinColumn(name = "category_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
+
+
 }
