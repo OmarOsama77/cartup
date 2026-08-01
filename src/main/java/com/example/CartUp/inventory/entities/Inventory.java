@@ -1,5 +1,6 @@
 package com.example.CartUp.inventory.entities;
 
+import com.example.CartUp.products.entities.ProductVariant;
 import jakarta.persistence.*;
 
 @Table(name = "inventory")
@@ -13,5 +14,7 @@ public class Inventory {
 
     private int reservedQuantity;
 
-
+    @OneToOne
+    @JoinColumn(name = "product_variant_id")
+    private ProductVariant productVariant;
 }

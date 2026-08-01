@@ -8,6 +8,7 @@ import com.example.CartUp.products.entities.ProductVariant;
 import com.example.CartUp.products.enums.ProductStatus;
 import com.example.CartUp.products.exceptions.ProductAlreadyExists;
 import com.example.CartUp.products.exceptions.ProductNotFoundException;
+import com.example.CartUp.products.mappers.ProductMappers;
 import com.example.CartUp.products.repositories.ProductVariantRepository;
 import com.example.CartUp.products.repositories.ProductsRepository;
 import com.example.CartUp.products.services.ProductsService;
@@ -61,7 +62,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public GetProductDtoResponse addProductVarieties(ProductVarietiesDtoRequest request, Long productId) {
+    public ProductDto addProductVarieties(ProductVarietiesDtoRequest request, Long productId) {
         //first make sure this product exist
         if (!productsRepository.existsById(productId)) {
             throw new ProductNotFoundException(productId);
@@ -70,8 +71,8 @@ public class ProductsServiceImpl implements ProductsService {
 
         ProductVariant productVariant = ProductVariant.builder().product(product).price(request.getPrice()).attributes(request.getAttributes()).build();
         productVariantRepository.save(productVariant);
-        product.setProductStatus(ProductStatus.ACTIVE);
         if (product.getProductStatus() == ProductStatus.DRAFTED) {
+            product.setProductStatus(ProductStatus.ACTIVE);
             productsRepository.updateProductStatusToActive(productId);
         }
 
@@ -82,7 +83,7 @@ public class ProductsServiceImpl implements ProductsService {
                         .attributes(it.getAttributes()).build()
         ).toList();
 
-        return GetProductDtoResponse.builder()
+        return ProductDto.builder()
                 .id(productId)
                 .name(product.getName())
                 .desc(product.getDescription())
@@ -91,5 +92,15 @@ public class ProductsServiceImpl implements ProductsService {
                 .subCatId(product.getSubCategory().getId())
                 .productVariantDtoList(productVariantDtoList)
                 .build();
+    }
+
+    @Override
+    public List<ProductDto> getProducts() {
+        List<Product> products = productsRepository.getActiveProducts();
+
+        return products.stream().map(
+                it ->
+                        ProductMappers.fromProductEntity(it)
+        ).toList();
     }
 }

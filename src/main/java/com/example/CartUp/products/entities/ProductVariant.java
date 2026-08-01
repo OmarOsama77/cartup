@@ -1,5 +1,6 @@
 package com.example.CartUp.products.entities;
 
+import com.example.CartUp.inventory.entities.Inventory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,4 +31,6 @@ public class ProductVariant {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @OneToOne(mappedBy = "productVariant",cascade = CascadeType.ALL)
+    private Inventory inventory;
 }
