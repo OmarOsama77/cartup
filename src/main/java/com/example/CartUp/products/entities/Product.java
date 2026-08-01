@@ -6,16 +6,16 @@ import com.example.CartUp.products.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.List;
-import java.util.Map;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Data
 @Table(name = "products")
 public class Product {
     @Id
@@ -38,6 +38,6 @@ public class Product {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private List<ProductVariant> productVariantList;
 }

@@ -7,6 +7,7 @@ import com.example.CartUp.auth.exceptions.UserNotFoundException;
 import com.example.CartUp.brands.exceptions.BrandAlreadyExistsException;
 import com.example.CartUp.brands.exceptions.BrandNotFoundException;
 import com.example.CartUp.categories.exceptions.*;
+import com.example.CartUp.products.exceptions.ProductAlreadyExists;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -117,6 +118,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BrandNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBrandNotFoundException(
             BrandNotFoundException exception
+    ){
+        ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(errorResponse);
+    }
+
+    @ExceptionHandler(ProductAlreadyExists.class)
+    public ResponseEntity<ErrorResponse> handleProductAlreadyExistsException(
+            ProductAlreadyExists exception
     ){
         ErrorResponse errorResponse = ErrorResponse.builder().message(exception.getMessage()).build();
         return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(errorResponse);

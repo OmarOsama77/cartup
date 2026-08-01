@@ -32,4 +32,9 @@ public class BrandServiceImpl implements BrandService {
         }
         brandRepository.deleteById(id);
     }
+
+    @Override
+    public Brand findBrandById(Long id) {
+        return brandRepository.findById(id).orElseThrow();
+    }
 }

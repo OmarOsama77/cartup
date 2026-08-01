@@ -48,4 +48,9 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         //else we can delete from db
         subCategoryRepository.deleteById(subCategoryId);
     }
+
+    @Override
+    public SubCategory findSubCatById(Long id) {
+        return subCategoryRepository.findById(id).orElseThrow();
+    }
 }

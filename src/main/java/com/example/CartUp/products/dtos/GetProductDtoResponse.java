@@ -1,22 +1,23 @@
 package com.example.CartUp.products.dtos;
 
-
 import com.example.CartUp.products.enums.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateProductDtoResponse {
+public class GetProductDtoResponse {
     private Long id;
     private String name;
-    private String description;
+    private ProductStatus productStatus;
+    private String desc;
     private Long brandId;
-    private Long subCategoryId;
-    private ProductStatus status;
+    private Long subCatId;
+    private List<ProductVariantDto> productVariantDtoList;
 }
-
