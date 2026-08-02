@@ -1,6 +1,6 @@
 package com.example.CartUp.auth.services.impl;
 
-import com.example.CartUp.auth.dtos.delete_user.DeleteUserResponse;
+import com.example.CartUp.auth.dtos.deleteuser.DeleteUserResponse;
 import com.example.CartUp.auth.dtos.login.LoginRequest;
 import com.example.CartUp.auth.dtos.login.LoginResponse;
 import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenRequest;

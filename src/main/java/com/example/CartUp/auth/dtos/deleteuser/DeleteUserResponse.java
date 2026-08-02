@@ -1,4 +1,4 @@
-package com.example.CartUp.auth.dtos.delete_user;
+package com.example.CartUp.auth.dtos.deleteuser;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

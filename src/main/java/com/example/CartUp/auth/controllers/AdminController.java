@@ -1,13 +1,12 @@
 package com.example.CartUp.auth.controllers;
 
-import com.example.CartUp.auth.dtos.delete_user.DeleteUserResponse;
+import com.example.CartUp.auth.dtos.deleteuser.DeleteUserResponse;
 import com.example.CartUp.auth.dtos.login.LoginRequest;
 import com.example.CartUp.auth.dtos.login.LoginResponse;
 import com.example.CartUp.auth.dtos.register.RegisterRequest;
 import com.example.CartUp.auth.dtos.register.RegisterResponse;
 import com.example.CartUp.auth.enums.Role;
 import com.example.CartUp.auth.services.AuthenticationService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
