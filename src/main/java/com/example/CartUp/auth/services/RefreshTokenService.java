@@ -1,12 +1,12 @@
 package com.example.CartUp.auth.services;
 
 import com.example.CartUp.auth.entities.RefreshToken;
-import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
+import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.auth.repositories.RefreshTokenRepository;
 import com.example.CartUp.auth.repositories.UserRepository;
-import com.example.CartUp.auth.entities.User;
+import com.example.CartUp.shared.exceptions.ApplicationException;
+import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -27,7 +27,8 @@ public class RefreshTokenService {
     }
 
     public String createRefreshToken(String userEmail) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
         RefreshToken refreshToken =
                 RefreshToken.builder()
                         .user(user)
@@ -35,15 +36,15 @@ public class RefreshTokenService {
                         .expiryDate(Instant.now().plusMillis(refreshExpiration)).build();
         refreshRepository.save(refreshToken);
 
-
         return refreshToken.getToken();
 
     }
 
 
 
-    public boolean isRefreshTokenExpired(String token) {
-        RefreshToken refreshToken = refreshRepository.findByToken(token).orElseThrow(() -> new InvalidRefreshTokenException());
+    public boolean isRefreshTokenExpiredAndCleanup(String token) {
+        RefreshToken refreshToken = refreshRepository.findByToken(token)
+                .orElseThrow(() -> new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN));
         if (refreshToken.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshRepository.delete(refreshToken);
             return true;
@@ -59,7 +60,7 @@ public class RefreshTokenService {
 
 
     public UUID extractUserIdFromToken(String token) {
-        return refreshRepository.findUserIdByToken(token).orElseThrow(() -> new UsernameNotFoundException("d"));
+        return refreshRepository.findUserIdByToken(token).orElseThrow(() -> new ApplicationException(ErrorCode.USER_NOT_FOUND));
     }
 
 

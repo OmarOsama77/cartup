@@ -1,6 +1,6 @@
 package com.example.CartUp.inventory.entities;
 
-import com.example.CartUp.products.entities.ProductVariant;
+import com.example.CartUp.product.entities.ProductVariant;
 import jakarta.persistence.*;
 
 @Table(name = "inventory")

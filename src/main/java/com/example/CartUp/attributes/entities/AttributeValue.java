@@ -1,6 +1,6 @@
 package com.example.CartUp.attributes.entities;
 
-import com.example.CartUp.products.entities.ProductVariant;
+import com.example.CartUp.product.entities.ProductVariant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

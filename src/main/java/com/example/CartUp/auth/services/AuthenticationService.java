@@ -1,24 +1,21 @@
 package com.example.CartUp.auth.services;
 
-import com.example.CartUp.auth.dtos.deleteuser.DeleteUserResponse;
-import com.example.CartUp.auth.dtos.login.LoginRequest;
-import com.example.CartUp.auth.dtos.login.LoginResponse;
-import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenRequest;
-import com.example.CartUp.auth.dtos.refresh_token.RefreshTokenResponse;
-import com.example.CartUp.auth.dtos.register.RegisterRequest;
-import com.example.CartUp.auth.dtos.register.RegisterResponse;
-import com.example.CartUp.auth.exceptions.InvalidRefreshTokenException;
-import com.example.CartUp.auth.exceptions.LoginFailedException;
+import com.example.CartUp.auth.dto.request.LoginRequest;
+import com.example.CartUp.auth.dto.request.RefreshTokenRequest;
+import com.example.CartUp.auth.dto.request.RegisterRequest;
+import com.example.CartUp.auth.dto.response.DeleteUserResponse;
+import com.example.CartUp.auth.dto.response.LoginResponse;
+import com.example.CartUp.auth.dto.response.RefreshTokenResponse;
+import com.example.CartUp.auth.dto.response.RegisterResponse;
 import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.auth.enums.Role;
-import com.example.CartUp.auth.exceptions.UserNotFoundException;
 import com.example.CartUp.auth.repositories.UserRepository;
 import com.example.CartUp.auth.security.JwtService;
-import com.example.CartUp.auth.exceptions.UserAlreadyExistException;
+import com.example.CartUp.shared.exceptions.ApplicationException;
+import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +36,7 @@ public class AuthenticationService {
     public RegisterResponse register(RegisterRequest request,Role role) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new UserAlreadyExistException(request.getEmail());
+            throw new ApplicationException(ErrorCode.USER_ALREADY_EXISTS);
         }
         User user = User.builder()
                 .firstName(request.getFirstName())
@@ -49,7 +46,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         userRepository.save(user);
-        return RegisterResponse.builder().message("Account added Successfully").build();
+        return RegisterResponse.builder().userId(user.getId()).message("Account added Successfully").build();
     }
 
 
@@ -63,19 +60,19 @@ public class AuthenticationService {
             String refreshToken = refreshTokenService.createRefreshToken(request.getEmail());
             return LoginResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
         } catch (Exception e) {
-            throw new LoginFailedException("Invalid email or password");
+            throw new ApplicationException(ErrorCode.LOGIN_FAILED);
         }
     }
 
 
     public RefreshTokenResponse refreshToken(RefreshTokenRequest request) {
         //either return a new access token or deny the current refreshToken
-        boolean isRefreshTokenExpired = refreshTokenService.isRefreshTokenExpired(request.getToken());
+        boolean isRefreshTokenExpired = refreshTokenService.isRefreshTokenExpiredAndCleanup(request.getToken());
         if (isRefreshTokenExpired) {
-            throw new InvalidRefreshTokenException();
+            throw new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN);
         } else {
             UUID userId = refreshTokenService.extractUserIdFromToken(request.getToken());
-            String userEmail =  userRepository.findUserEmailById(userId).orElseThrow(()-> new UsernameNotFoundException(""));
+            String userEmail =  userRepository.findUserEmailById(userId).orElseThrow(()-> new ApplicationException(ErrorCode.EMAIL_NOT_FOUND));
             String accessToken = jwtService.generateToken(userEmail);
             return RefreshTokenResponse.builder().accessToken(accessToken).refreshToken(request.getToken()).build();
         }
@@ -85,7 +82,7 @@ public class AuthenticationService {
     public DeleteUserResponse deleteUser(UUID userId) {
         //First make sure this user is in db
         if(!userRepository.existsById(userId)){
-            throw new UserNotFoundException();
+            throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
         }
         userRepository.deleteById(userId);
 

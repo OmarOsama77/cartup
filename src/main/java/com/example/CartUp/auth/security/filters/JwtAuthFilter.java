@@ -1,8 +1,7 @@
 package com.example.CartUp.auth.security.filters;
 
-import com.example.CartUp.auth.exceptions.UserNotFoundException;
+
 import com.example.CartUp.auth.security.JwtService;
-import com.example.CartUp.categories.exceptions.InvalidAccessTokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         String token = authHeader.substring(7);
 
-        try {
+
             String userEmail = jwtService.extractUserEmail(token);
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
@@ -55,10 +54,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        }catch (UserNotFoundException e){
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
-        }
+
     }
 }
