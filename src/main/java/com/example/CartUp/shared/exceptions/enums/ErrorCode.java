@@ -10,8 +10,8 @@ public enum ErrorCode {
     ATTRIBUTE_ALREADY_EXISTS("attribute already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_NOT_FOUND("attribute not found",HttpStatus.NOT_FOUND),
     ATTRIBUTE_VALUE_ALREADY_EXISTS("attribute value already exists",HttpStatus.CONFLICT),
-    ATTRIBUTE_VALUE_NOT_FOUND("attribute value not found",HttpStatus.NOT_FOUND);
-
+    ATTRIBUTE_VALUE_NOT_FOUND("attribute value not found",HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_FOUND("product not found",HttpStatus.NOT_FOUND);
 
     private String message;
     private HttpStatus status;

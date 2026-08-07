@@ -2,7 +2,6 @@ package com.example.CartUp.products.entities;
 
 import com.example.CartUp.brands.entities.Brand;
 import com.example.CartUp.categories.entities.SubCategory;
-import com.example.CartUp.products.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +23,7 @@ public class Product {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private ProductStatus productStatus;
+
 
     private String description;
 

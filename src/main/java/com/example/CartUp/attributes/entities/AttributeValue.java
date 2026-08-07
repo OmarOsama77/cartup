@@ -1,10 +1,13 @@
 package com.example.CartUp.attributes.entities;
 
+import com.example.CartUp.products.entities.ProductVariant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Table(name = "attribute_values")
 @Entity
@@ -23,4 +26,8 @@ public class AttributeValue {
     @ManyToOne
     @JoinColumn(name = "attribute_id")
     private Attribute attribute;
+
+    @ManyToMany(mappedBy = "attributeValues")
+    private List<ProductVariant> variants;
+
 }

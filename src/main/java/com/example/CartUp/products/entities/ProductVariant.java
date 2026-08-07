@@ -1,5 +1,6 @@
 package com.example.CartUp.products.entities;
 
+import com.example.CartUp.attributes.entities.AttributeValue;
 import com.example.CartUp.inventory.entities.Inventory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -24,13 +26,19 @@ public class ProductVariant {
 
     private double price;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    private Map<String, Object> attributes;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToOne(mappedBy = "productVariant",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "productVariant", cascade = CascadeType.ALL)
     private Inventory inventory;
+
+    @ManyToMany
+    @JoinTable(
+            name = "variant_attribute_values",
+            joinColumns = @JoinColumn(name = "product_varient_id"),
+            inverseJoinColumns = @JoinColumn(name = "attribute_value_id")
+    )
+    private List<AttributeValue> attributeValues;
 }

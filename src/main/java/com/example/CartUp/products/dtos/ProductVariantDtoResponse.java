@@ -11,8 +11,8 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductVariantDto {
+public class ProductVariantDtoResponse {
     private Long id;
     private double price;
-    private Map<String,Object> attributes;
+    private Map<String,String> attributes;
 }

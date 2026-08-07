@@ -1,7 +1,6 @@
 package com.example.CartUp.products.dtos;
 
 
-import com.example.CartUp.products.enums.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +16,6 @@ public class CreateProductDtoResponse {
     private String description;
     private Long brandId;
     private Long subCategoryId;
-    private ProductStatus status;
+
 }
 

@@ -1,9 +1,7 @@
 package com.example.CartUp.products.controllers;
 
-import com.example.CartUp.products.dtos.CreateProductDtoRequest;
-import com.example.CartUp.products.dtos.CreateProductDtoResponse;
-import com.example.CartUp.products.dtos.ProductDto;
-import com.example.CartUp.products.dtos.ProductVarietiesDtoRequest;
+import com.example.CartUp.products.dtos.*;
+import com.example.CartUp.products.services.ProductVariantService;
 import com.example.CartUp.products.services.ProductsService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -16,28 +14,29 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class ProductsController {
-    private final ProductsService service;
+    private final ProductsService productsService;
+    private final ProductVariantService productVariantService;
 
     @PostMapping("/products")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CreateProductDtoResponse> uploadProduct(
             @Valid @RequestBody CreateProductDtoRequest request
     ) {
-        return ResponseEntity.ok(service.uploadProduct(request));
+        return ResponseEntity.ok(productsService.uploadProduct(request));
     }
 
 
     @PostMapping("/products/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ProductDto> addProductVarieties(
+    public ResponseEntity<ProductVariantDtoResponse> addProductVarieties(
             @Valid @RequestBody ProductVarietiesDtoRequest request,@PathVariable Long id) {
 
-        return ResponseEntity.ok(service.addProductVarieties(request,id));
+        return ResponseEntity.ok(productVariantService.addProductVariant(request,id));
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDto>> getProducts(){
-        return ResponseEntity.ok(service.getProducts());
+        return ResponseEntity.ok(productsService.getProducts());
     }
 
 
@@ -46,7 +45,7 @@ public class ProductsController {
     public ResponseEntity<Void> deleteProduct(
             @PathVariable Long id
     ) {
-        service.deleteProduct(id);
+        productsService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 }
