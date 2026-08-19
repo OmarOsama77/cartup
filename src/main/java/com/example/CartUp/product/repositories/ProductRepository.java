@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ProductsRepository extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product,Long> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE products set product_status = 'ACTIVE' where id = :productId",nativeQuery = true)

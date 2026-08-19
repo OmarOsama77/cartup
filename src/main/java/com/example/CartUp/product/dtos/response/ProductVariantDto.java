@@ -1,18 +1,15 @@
-package com.example.CartUp.product.dtos;
+package com.example.CartUp.product.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductVariantDtoResponse {
-    private Long id;
+public class ProductVariantDto {
     private double price;
-    private Map<String,String> attributes;
+
 }

@@ -1,4 +1,4 @@
-package com.example.CartUp.product.dtos;
+package com.example.CartUp.product.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,16 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class ProductDto {
     private Long id;
     private String name;
-
-    private String desc;
+    private String description;
     private Long brandId;
     private Long subCatId;
-    private List<ProductVariantDtoResponse> productVariantDtoList;
+    private List<ProductVariantDto> productVariants;
 }

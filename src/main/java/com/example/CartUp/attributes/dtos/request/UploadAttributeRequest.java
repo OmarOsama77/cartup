@@ -1,0 +1,8 @@
+package com.example.CartUp.attributes.dtos.request;
+
+import lombok.Data;
+
+@Data
+public class UploadAttributeRequest {
+    private String name;
+}

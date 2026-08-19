@@ -45,4 +45,9 @@ public class SubCategoryService {
         }
         repository.deleteById(id);
     }
+
+    public SubCategory findSubCatById(Long id){
+        return repository.findById(id).orElseThrow(()-> new ApplicationException(ErrorCode.SUB_CATEGORY_NOT_FOUND));
+    }
 }
+

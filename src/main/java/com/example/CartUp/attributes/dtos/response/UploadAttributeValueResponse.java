@@ -1,16 +1,16 @@
-package com.example.CartUp.attributes.dtos.attributevaluedtos;
+package com.example.CartUp.attributes.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UploadAttributeValueRequest {
-
+@Builder
+@Data
+public class UploadAttributeValueResponse {
+    private Long id;
     private String value;
-
+    private String attributeName;
 }

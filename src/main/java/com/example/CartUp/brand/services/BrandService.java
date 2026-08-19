@@ -32,6 +32,8 @@ public class BrandService {
             throw new ApplicationException(ErrorCode.BRAND_NOT_FOUND);
         }
         repository.deleteById(id);
-
+    }
+    public Brand findBrandById(Long id){
+        return repository.findById(id).orElseThrow(()->new ApplicationException(ErrorCode.BRAND_NOT_FOUND));
     }
 }

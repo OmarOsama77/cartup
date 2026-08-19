@@ -16,6 +16,7 @@ public enum ErrorCode {
     CATEGORY_NOT_FOUND("Category not found",HttpStatus.CONFLICT),
     SUB_CATEGORY_ALREADY_EXISTS("Sub category already exists",HttpStatus.CONFLICT),
     SUB_CATEGORY_NOT_FOUND("Sub category not found",HttpStatus.CONFLICT),
+    PRODUCT_ALREADY_EXISTS("Product already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_ALREADY_EXISTS("Attribute already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_NOT_FOUND("Attribute not found",HttpStatus.NOT_FOUND),
     ATTRIBUTE_VALUE_ALREADY_EXISTS("Attribute value already exists",HttpStatus.CONFLICT),
