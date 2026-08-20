@@ -7,6 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CartRepository extends JpaRepository<Cart,Long> {
-    boolean existsByUserId(UUID userId);
+
     Optional<Cart> findByUserId(UUID userId);
 }
