@@ -10,6 +10,8 @@ import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class AttributeValueService {
@@ -22,7 +24,7 @@ public class AttributeValueService {
         }
         request.setValue(request.getValue().toLowerCase());
 
-        if(repository.existsByValue(request.getValue())){
+        if (repository.existsByValue(request.getValue())) {
             throw new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_ALREADY_EXISTS);
         }
 
@@ -41,10 +43,23 @@ public class AttributeValueService {
                 .build();
     }
 
-    public void deleteAttributeValue(Long attributeValueId){
-        if(!repository.existsById(attributeValueId)){
+    public void deleteAttributeValue(Long attributeValueId) {
+        if (!repository.existsById(attributeValueId)) {
             throw new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_NOT_FOUND);
         }
         repository.deleteById(attributeValueId);
+    }
+
+    public String getAttributeName(Long attributeValueId) {
+
+        AttributeValue attributeValue = repository.findById(attributeValueId).orElseThrow(() -> new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_NOT_FOUND));
+        return attributeValue.getAttribute().getName();
+    }
+    public List<AttributeValue> findAllById(List<Long> id){
+        List<AttributeValue> attributeValues=  repository.findAllById(id);
+        if(attributeValues.size()!=id.size()){
+            throw new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_NOT_FOUND);
+        }
+        return attributeValues;
     }
 }

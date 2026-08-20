@@ -7,19 +7,26 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-
+@RequestMapping("/products")
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
+
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> getProducts(){
+        return ResponseEntity.ok(productService.getProducts());
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/products")
+    @PostMapping
     public ResponseEntity<ProductDto> uploadProduct(@Valid @RequestBody UploadProductRequest request) {
         return ResponseEntity.ok(productService.uploadProduct(request));
     }
+
 
 }

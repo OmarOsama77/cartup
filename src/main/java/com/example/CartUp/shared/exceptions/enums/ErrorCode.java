@@ -17,10 +17,12 @@ public enum ErrorCode {
     SUB_CATEGORY_ALREADY_EXISTS("Sub category already exists",HttpStatus.CONFLICT),
     SUB_CATEGORY_NOT_FOUND("Sub category not found",HttpStatus.CONFLICT),
     PRODUCT_ALREADY_EXISTS("Product already exists",HttpStatus.CONFLICT),
+    PRODUCT_VARIANT_NOT_FOUND("Product variant not found",HttpStatus.NOT_FOUND),
     ATTRIBUTE_ALREADY_EXISTS("Attribute already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_NOT_FOUND("Attribute not found",HttpStatus.NOT_FOUND),
     ATTRIBUTE_VALUE_ALREADY_EXISTS("Attribute value already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_VALUE_NOT_FOUND("Attribute value not found",HttpStatus.NOT_FOUND),
+    DUPLICATED_ATTRIBUTES("Duplicated attributes for the same product variant",HttpStatus.CONFLICT),
     PRODUCT_NOT_FOUND("Product not found",HttpStatus.NOT_FOUND);
 
     private final String message;
