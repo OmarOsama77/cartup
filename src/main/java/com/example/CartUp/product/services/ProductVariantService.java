@@ -75,7 +75,10 @@ public class ProductVariantService {
     }
 
 
+    public ProductVariant findById(Long id){
 
+        return productVariantRepository.findById(id).orElseThrow(()->new ApplicationException(ErrorCode.PRODUCT_VARIANT_NOT_FOUND));
+    }
 
 
 }

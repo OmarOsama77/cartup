@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+    ACCESS_DENIED("Access denied ",HttpStatus.FORBIDDEN),
     USER_NOT_FOUND("Requested user does not exist", HttpStatus.NOT_FOUND),
     USER_ALREADY_EXISTS("User address is already registered", HttpStatus.CONFLICT),
     LOGIN_FAILED("Invalid email or password",HttpStatus.UNAUTHORIZED),
@@ -22,6 +23,7 @@ public enum ErrorCode {
     ATTRIBUTE_NOT_FOUND("Attribute not found",HttpStatus.NOT_FOUND),
     ATTRIBUTE_VALUE_ALREADY_EXISTS("Attribute value already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_VALUE_NOT_FOUND("Attribute value not found",HttpStatus.NOT_FOUND),
+    CART_NOT_FOUND("Cart not found",HttpStatus.NOT_FOUND),
     DUPLICATED_ATTRIBUTES("Duplicated attributes for the same product variant",HttpStatus.CONFLICT),
     PRODUCT_NOT_FOUND("Product not found",HttpStatus.NOT_FOUND);
 

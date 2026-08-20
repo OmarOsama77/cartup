@@ -38,4 +38,6 @@ public class ProductVariant {
             inverseJoinColumns = @JoinColumn(name = "attribute_value_id")
     )
     private List<AttributeValue> attributeValues;
+
+
 }

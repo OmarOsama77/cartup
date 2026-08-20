@@ -24,8 +24,6 @@ public class SubCategoryService {
         if(repository.existsByNameIgnoreCase(request.getSubCatName())){
             throw new ApplicationException(ErrorCode.SUB_CATEGORY_ALREADY_EXISTS);
         }
-        //else we need to create it
-        System.out.println("im creating");
         SubCategory subCategory = SubCategory
                 .builder()
                 .name(request.getSubCatName())

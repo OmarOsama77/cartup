@@ -60,6 +60,7 @@ public class AuthenticationService {
             String refreshToken = refreshTokenService.createRefreshToken(request.getEmail());
             return LoginResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
         } catch (Exception e) {
+            System.out.println("ya omar ee");
             throw new ApplicationException(ErrorCode.LOGIN_FAILED);
         }
     }
