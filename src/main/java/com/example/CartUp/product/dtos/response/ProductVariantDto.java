@@ -16,5 +16,7 @@ public class ProductVariantDto {
     private Long id;
     private double price;
     private Map<String,String> attributeValues;
+    private int reservedQuantity;
+    private int availableQuantity;
 
 }

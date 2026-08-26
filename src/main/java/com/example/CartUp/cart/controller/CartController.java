@@ -17,6 +17,14 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartService service;
 
+    @PostMapping("/items")
+    public ResponseEntity<CartItemResponse> addItemToCart(
+            @AuthenticationPrincipal User user,
+            @RequestBody AddProductRequest request
+    ) {
+        return ResponseEntity.ok(service.addProductToCart(user, request));
+
+    }
 
     @GetMapping
     public ResponseEntity<CartResponse> getCart(
@@ -34,14 +42,6 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/items")
-    public ResponseEntity<CartItemResponse> addItemToCart(
-            @AuthenticationPrincipal User user,
-            @RequestBody AddProductRequest request
-    ) {
-        return ResponseEntity.ok(service.addProductToCart(user, request));
-
-    }
 
 
 }

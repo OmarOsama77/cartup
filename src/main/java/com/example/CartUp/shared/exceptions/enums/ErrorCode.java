@@ -24,8 +24,11 @@ public enum ErrorCode {
     ATTRIBUTE_VALUE_ALREADY_EXISTS("Attribute value already exists",HttpStatus.CONFLICT),
     ATTRIBUTE_VALUE_NOT_FOUND("Attribute value not found",HttpStatus.NOT_FOUND),
     CART_NOT_FOUND("Cart not found",HttpStatus.NOT_FOUND),
+    INVENTORY_ALREADY_EXISTS("Inventory already exists",HttpStatus.CONFLICT),
+    INVENTORY_NOT_FOUND("Inventory not found",HttpStatus.NOT_FOUND),
     DUPLICATED_ATTRIBUTES("Duplicated attributes for the same product variant",HttpStatus.CONFLICT),
-    PRODUCT_NOT_FOUND("Product not found",HttpStatus.NOT_FOUND);
+    PRODUCT_NOT_FOUND("Product not found",HttpStatus.NOT_FOUND),
+    INSUFFICIENT_INVENTORY("Insufficient inventory",HttpStatus.CONFLICT);
 
     private final String message;
     private final HttpStatus status;

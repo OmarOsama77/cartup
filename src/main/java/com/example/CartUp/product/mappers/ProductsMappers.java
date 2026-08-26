@@ -31,7 +31,13 @@ public class ProductsMappers {
         }
 
 
-        return ProductVariantDto.builder().id(productVariant.getId()).price(productVariant.getPrice()).attributeValues(attributes).build();
+        return ProductVariantDto.builder()
+                .id(productVariant.getId())
+                .price(productVariant.getPrice())
+                .attributeValues(attributes)
+                .availableQuantity(productVariant.getInventory().getAvailableQuantity())
+                .reservedQuantity(productVariant.getInventory().getReservedQuantity())
+                .build();
     }
 
 
