@@ -1,10 +1,9 @@
-package com.example.CartUp.attributes.services;
+package com.example.CartUp.attribute.services;
 
-import com.example.CartUp.attributes.dtos.request.UploadAttributeValueRequest;
-import com.example.CartUp.attributes.dtos.response.UploadAttributeValueResponse;
-import com.example.CartUp.attributes.entities.Attribute;
-import com.example.CartUp.attributes.entities.AttributeValue;
-import com.example.CartUp.attributes.repositories.AttributeValueRepository;
+import com.example.CartUp.attribute.dtos.request.UploadAttributeValueRequest;
+import com.example.CartUp.attribute.dtos.response.UploadAttributeValueResponse;
+import com.example.CartUp.attribute.entities.AttributeValue;
+import com.example.CartUp.attribute.repositories.AttributeValueRepository;
 import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import lombok.AllArgsConstructor;

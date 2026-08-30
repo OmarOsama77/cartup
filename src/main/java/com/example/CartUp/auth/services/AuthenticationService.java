@@ -60,7 +60,6 @@ public class AuthenticationService {
             String refreshToken = refreshTokenService.createRefreshToken(request.getEmail());
             return LoginResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
         } catch (Exception e) {
-            System.out.println("ya omar ee");
             throw new ApplicationException(ErrorCode.LOGIN_FAILED);
         }
     }
@@ -81,7 +80,7 @@ public class AuthenticationService {
 
 
     public DeleteUserResponse deleteUser(UUID userId) {
-        //First make sure this user is in db
+
         if(!userRepository.existsById(userId)){
             throw new ApplicationException(ErrorCode.USER_NOT_FOUND);
         }

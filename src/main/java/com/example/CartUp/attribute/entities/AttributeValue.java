@@ -1,4 +1,4 @@
-package com.example.CartUp.attributes.entities;
+package com.example.CartUp.attribute.entities;
 
 import com.example.CartUp.product.entities.ProductVariant;
 import jakarta.persistence.*;

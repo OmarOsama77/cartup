@@ -1,8 +1,8 @@
-package com.example.CartUp.attributes.controllers;
+package com.example.CartUp.attribute.controllers;
 
-import com.example.CartUp.attributes.dtos.request.UploadAttributeRequest;
-import com.example.CartUp.attributes.dtos.response.UploadAttributeResponse;
-import com.example.CartUp.attributes.services.AttributeService;
+import com.example.CartUp.attribute.dtos.request.UploadAttributeRequest;
+import com.example.CartUp.attribute.dtos.response.UploadAttributeResponse;
+import com.example.CartUp.attribute.services.AttributeService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

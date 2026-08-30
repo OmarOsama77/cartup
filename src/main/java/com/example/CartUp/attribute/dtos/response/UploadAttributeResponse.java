@@ -1,4 +1,4 @@
-package com.example.CartUp.attributes.dtos.response;
+package com.example.CartUp.attribute.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

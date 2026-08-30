@@ -1,7 +1,7 @@
 package com.example.CartUp.product.services;
 
-import com.example.CartUp.attributes.entities.AttributeValue;
-import com.example.CartUp.attributes.services.AttributeValueService;
+import com.example.CartUp.attribute.entities.AttributeValue;
+import com.example.CartUp.attribute.services.AttributeValueService;
 import com.example.CartUp.inventory.entities.Inventory;
 import com.example.CartUp.inventory.services.InventoryService;
 import com.example.CartUp.product.dtos.request.UploadProductVariantRequest;
@@ -41,7 +41,7 @@ public class ProductVariantService {
                 .build();
 
         ProductVariant saved = productVariantRepository.save(productVariant);
-        Inventory inventory=  inventoryService.createInventory(saved,request.getAvailableQuantity(),request.getReservedQuantity());
+        Inventory inventory=  inventoryService.createInventory(saved,request.getAvailableQuantity());
 
         saved.setInventory(inventory);
         return ProductsMappers.fromProductVariantToProductVariantDto(productVariant);

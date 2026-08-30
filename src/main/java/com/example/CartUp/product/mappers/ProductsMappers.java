@@ -1,6 +1,6 @@
 package com.example.CartUp.product.mappers;
 
-import com.example.CartUp.attributes.entities.AttributeValue;
+import com.example.CartUp.attribute.entities.AttributeValue;
 import com.example.CartUp.product.dtos.response.ProductDto;
 import com.example.CartUp.product.dtos.response.ProductVariantDto;
 import com.example.CartUp.product.entities.Product;

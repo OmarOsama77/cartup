@@ -1,6 +1,6 @@
-package com.example.CartUp.attributes.repositories;
+package com.example.CartUp.attribute.repositories;
 
-import com.example.CartUp.attributes.entities.AttributeValue;
+import com.example.CartUp.attribute.entities.AttributeValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AttributeValueRepository extends JpaRepository<AttributeValue,Long> {

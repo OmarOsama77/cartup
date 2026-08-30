@@ -1,12 +1,9 @@
 package com.example.CartUp.product.entities;
 
-import com.example.CartUp.attributes.entities.AttributeValue;
+import com.example.CartUp.attribute.entities.AttributeValue;
 import com.example.CartUp.inventory.entities.Inventory;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 

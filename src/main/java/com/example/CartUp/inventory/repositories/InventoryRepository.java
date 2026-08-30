@@ -12,8 +12,11 @@ import java.util.Optional;
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     boolean existsByProductVariantId(Long productVariantId);
 
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    Optional<Inventory> findById(Long inventoryId);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<Inventory> findByProductVariantId(Long productVariantId);
+
+
+
 
     @Query(
             value = "SELECT available_quantity FROM inventory WHERE product_variant_id = :productVariantId"

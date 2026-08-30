@@ -18,20 +18,14 @@ public class InventoryController {
     private final InventoryService service;
 
 
-    @PatchMapping("/{inventoryId}/available")
-    public ResponseEntity<InventoryResponse> updateAvailableQuantity(
-            @PathVariable Long inventoryId,
-            @Valid @RequestBody UpdateAvailableQuantityRequest request
-    ) {
-        return ResponseEntity.ok(service.updateAvailableQuantity(request,inventoryId));
-    }
 
-    @PatchMapping("/{inventoryId}/reserve")
+
+    @PatchMapping("/{productVariableId}/reserve")
     public ResponseEntity<InventoryResponse> reserveProduct(
-            @PathVariable Long inventoryId,
+            @PathVariable Long productVariableId,
             @Valid @RequestBody UpdateReservedQuantityRequest request
     ) {
-        return ResponseEntity.ok(service.reserveProduct(request,inventoryId));
+        return ResponseEntity.ok(service.reserveProduct(request,productVariableId));
     }
 
 

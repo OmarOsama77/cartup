@@ -1,8 +1,8 @@
-package com.example.CartUp.attributes.controllers;
+package com.example.CartUp.attribute.controllers;
 
-import com.example.CartUp.attributes.dtos.request.UploadAttributeValueRequest;
-import com.example.CartUp.attributes.dtos.response.UploadAttributeValueResponse;
-import com.example.CartUp.attributes.services.AttributeValueService;
+import com.example.CartUp.attribute.dtos.request.UploadAttributeValueRequest;
+import com.example.CartUp.attribute.dtos.response.UploadAttributeValueResponse;
+import com.example.CartUp.attribute.services.AttributeValueService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

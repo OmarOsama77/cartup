@@ -7,11 +7,13 @@ import com.example.CartUp.auth.dto.request.RefreshTokenRequest;
 import com.example.CartUp.auth.dto.response.RefreshTokenResponse;
 import com.example.CartUp.auth.dto.request.RegisterRequest;
 import com.example.CartUp.auth.dto.response.RegisterResponse;
+import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.auth.enums.Role;
 import com.example.CartUp.auth.services.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -57,12 +59,12 @@ public class AuthenticationController {
     }
 
 
-    @DeleteMapping("/admin/register/id")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<DeleteUserResponse> deleteAdmin(
-            @PathVariable UUID id
-    ) {
-        return ResponseEntity.ok(authenticationService.deleteUser(id));
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUser(
+            @AuthenticationPrincipal User user
+    ){
+        authenticationService.deleteUser(user.getId());
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -23,6 +23,7 @@ public class Inventory {
     private int reservedQuantity;
 
     @OneToOne
-    @JoinColumn(name = "product_variant_id")
+
+    @JoinColumn(name = "product_variant_id",unique = true)
     private ProductVariant productVariant;
 }

@@ -2,6 +2,7 @@ package com.example.CartUp.auth.entities;
 
 import com.example.CartUp.auth.enums.Role;
 import com.example.CartUp.cart.entities.Cart;
+import com.example.CartUp.order.entities.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,8 +34,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     private Cart cart;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 
     @Override

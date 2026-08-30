@@ -2,11 +2,14 @@ package com.example.CartUp.cart.controller;
 
 import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.cart.dots.request.AddProductRequest;
+import com.example.CartUp.cart.dots.request.UpdateQuantityRequest;
 import com.example.CartUp.cart.dots.response.CartItemResponse;
 import com.example.CartUp.cart.dots.response.CartResponse;
 import com.example.CartUp.cart.entities.Cart;
 import com.example.CartUp.cart.services.CartService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +36,13 @@ public class CartController {
         return ResponseEntity.ok(service.getCart(user));
     }
 
+    @PatchMapping("/items/{cartItemId}")
+    public ResponseEntity<CartItemResponse> updateItemQuantity(
+            @AuthenticationPrincipal User user,
+           @Valid @RequestBody UpdateQuantityRequest request
+    ){
+        return ResponseEntity.ok(service.updateCartItemQuantity(user,request));
+    }
     @DeleteMapping("/items/{cartItemId}")
     public ResponseEntity<Void> deleteProductVariant(
             @AuthenticationPrincipal User user,
@@ -43,5 +53,11 @@ public class CartController {
     }
 
 
-
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<Void> deleteCart(
+            @PathVariable Long cartId
+    ){
+        service.deleteCart(cartId);
+        return ResponseEntity.noContent().build();
+    }
 }

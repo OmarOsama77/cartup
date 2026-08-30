@@ -12,17 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RolesAllowed("ADMIN")
+@RequestMapping("/brands")
 public class BrandController {
     private final BrandService service;
 
-    @PostMapping("/brands")
+    @PostMapping
     public ResponseEntity<CreateBrandResponse> uploadBrand(
             @Valid @RequestBody CreateBrandRequest request
     ) {
         return ResponseEntity.ok(service.createBrand(request));
     }
 
-    @DeleteMapping("/brands/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBrand(@PathVariable Long id){
         service.deleteBrand(id);
         return ResponseEntity.noContent().build();

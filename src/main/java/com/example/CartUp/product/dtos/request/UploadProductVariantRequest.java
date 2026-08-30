@@ -15,11 +15,6 @@ public class UploadProductVariantRequest {
     @PositiveOrZero(message = "Available quantity cannot be negative")
     private Integer availableQuantity;
 
-    @NotNull(message = "Reserved quantity is required")
-    @PositiveOrZero(message = "Reserved quantity cannot be negative")
-    private Integer reservedQuantity;
-
-
     @NotEmpty(message = "At least one attribute must be selected")
     private List<Long> attributes;
 }

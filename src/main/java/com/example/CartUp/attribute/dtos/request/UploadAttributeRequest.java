@@ -1,4 +1,4 @@
-package com.example.CartUp.attributes.dtos.request;
+package com.example.CartUp.attribute.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
