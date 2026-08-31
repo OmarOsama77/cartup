@@ -23,7 +23,9 @@ public class SecurityConfiguration {
     private JwtAuthFilter jwtAuthFilter;
 
     public final String [] publicEndpoints={
-            "/auth/register","/auth/login","/auth/refresh"
+            "/auth/register","/auth/login","/auth/refresh", "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
     };
 
     public SecurityConfiguration(JwtAuthFilter jwtAuthFilter){

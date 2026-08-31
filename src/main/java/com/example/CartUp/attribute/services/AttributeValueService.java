@@ -46,5 +46,11 @@ public class AttributeValueService {
         repository.deleteById(attributeValueId);
     }
 
-
+    public List<AttributeValue> findAllById(List<Long> id){
+        List<AttributeValue> attributeValues=  repository.findAllById(id);
+        if(attributeValues.size()!=id.size()){
+            throw new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_NOT_FOUND);
+        }
+        return attributeValues;
+    }
 }
