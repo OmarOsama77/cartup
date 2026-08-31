@@ -1,11 +1,11 @@
 package com.example.CartUp.auth.controllers;
 
-import com.example.CartUp.auth.dto.response.DeleteUserResponse;
 import com.example.CartUp.auth.dto.request.LoginRequest;
-import com.example.CartUp.auth.dto.response.LoginResponse;
 import com.example.CartUp.auth.dto.request.RefreshTokenRequest;
-import com.example.CartUp.auth.dto.response.RefreshTokenResponse;
 import com.example.CartUp.auth.dto.request.RegisterRequest;
+import com.example.CartUp.auth.dto.response.GetUserResponse;
+import com.example.CartUp.auth.dto.response.LoginResponse;
+import com.example.CartUp.auth.dto.response.RefreshTokenResponse;
 import com.example.CartUp.auth.dto.response.RegisterResponse;
 import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.auth.enums.Role;
@@ -19,11 +19,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
+    }
+
+    @PostMapping("/register/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<RegisterResponse> adminRegister(
+            @Valid @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(authenticationService.register(request, Role.ADMIN));
     }
 
     @PostMapping("/register")
@@ -43,32 +52,19 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.refreshToken(request));
     }
 
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable UUID id) {
-        return ResponseEntity.ok(authenticationService.deleteUser(id));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<GetUserResponse> getUser(
+
+            @PathVariable UUID userId
+    ){
+        return ResponseEntity.ok(authenticationService.getUser(userId));
     }
 
-
-    @PostMapping("/register/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<RegisterResponse> adminRegister(
-            @Valid @RequestBody RegisterRequest request
-    ) {
-        return ResponseEntity.ok(authenticationService.register(request, Role.ADMIN));
-    }
-
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteUser(
-            @AuthenticationPrincipal User user
-    ) {
-        authenticationService.deleteUser(user.getId());
+    @DeleteMapping("/user")
+    public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal User user) {
+        authenticationService.deleteUser(user);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/omar")
-    public ResponseEntity<Void> test(@AuthenticationPrincipal User user) {
-        authenticationService.test(user);
-        return ResponseEntity.noContent().build();
-    }
+
 }

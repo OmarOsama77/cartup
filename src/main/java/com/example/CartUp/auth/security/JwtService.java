@@ -1,5 +1,7 @@
 package com.example.CartUp.auth.security;
 
+import com.example.CartUp.shared.exceptions.ApplicationException;
+import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,6 +22,7 @@ public class JwtService {
     private long accessExpiration;
 
     public String extractUserEmail(String token){
+
         return extractAllClaims(token).getSubject();
     }
 
@@ -43,7 +46,15 @@ public class JwtService {
     }
 
     public Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
+        System.out.println("arrived about");
+         try{
+             Claims claims = Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
+             return claims;
+         }catch (Exception e){
+             throw new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN);
+         }
+
+
     }
 
     private Key getSignInKey() {
