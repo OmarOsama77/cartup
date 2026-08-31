@@ -111,7 +111,7 @@ public class CartService {
                 .orElseThrow(()->new ApplicationException(ErrorCode.USER_HAS_NO_CART));
 
         System.out.println("cart is "+cart.getId());
-        cartRepository.delete(cart);
+        cartItemRepository.deleteAllByCartId(cart.getId());
     }
 
 

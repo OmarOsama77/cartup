@@ -22,10 +22,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double discount;
+    private int discountRate;
 
     private double totalPrice;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne

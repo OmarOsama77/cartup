@@ -22,32 +22,31 @@ import java.util.UUID;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService){
+    public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(
-           @Valid @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authenticationService.register(request, Role.USER));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request){
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authenticationService.login(request));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<RefreshTokenResponse> refresh(@RequestBody RefreshTokenRequest request){
+    public ResponseEntity<RefreshTokenResponse> refresh(@RequestBody RefreshTokenRequest request) {
         return ResponseEntity.ok(authenticationService.refreshToken(request));
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable UUID id){
+    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable UUID id) {
         return ResponseEntity.ok(authenticationService.deleteUser(id));
     }
-
 
 
     @PostMapping("/register/admin")
@@ -62,9 +61,14 @@ public class AuthenticationController {
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteUser(
             @AuthenticationPrincipal User user
-    ){
+    ) {
         authenticationService.deleteUser(user.getId());
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/omar")
+    public ResponseEntity<Void> test(@AuthenticationPrincipal User user) {
+        authenticationService.test(user);
+        return ResponseEntity.noContent().build();
+    }
 }

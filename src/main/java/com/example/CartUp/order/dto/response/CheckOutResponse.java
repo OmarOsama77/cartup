@@ -16,6 +16,7 @@ import java.util.List;
 public class CheckOutResponse {
     private Long orderId;
     private Status orderStatus;
+    private int discountRate;
     private double totalAmount;
     private LocalDateTime createdAt;
     private List<OrderItemResponse> orderItemsList;

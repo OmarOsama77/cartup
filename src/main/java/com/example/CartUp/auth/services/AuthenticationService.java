@@ -11,8 +11,10 @@ import com.example.CartUp.auth.entities.User;
 import com.example.CartUp.auth.enums.Role;
 import com.example.CartUp.auth.repositories.UserRepository;
 import com.example.CartUp.auth.security.JwtService;
+import com.example.CartUp.order.entities.Order;
 import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,7 +50,14 @@ public class AuthenticationService {
         userRepository.save(user);
         return RegisterResponse.builder().userId(user.getId()).message("Account added Successfully").build();
     }
-
+    @Transactional
+    public void test(User user){
+        User freshUser = userRepository.findById(user.getId()).orElseThrow();
+        System.out.println("i have the user "+user.getId());
+        System.out.println("Now im fetching");
+        for (Order o : freshUser.getOrders()) { }
+        System.out.println("Finsihed");
+    }
 
     public LoginResponse login(LoginRequest request) {
 
