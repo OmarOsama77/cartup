@@ -1,8 +1,10 @@
 package com.example.CartUp.attribute.services;
 
-import com.example.CartUp.attribute.dtos.request.UploadAttributeValueRequest;
-import com.example.CartUp.attribute.dtos.response.UploadAttributeValueResponse;
+import com.example.CartUp.attribute.dtos.request.AttributeValueRequest;
+import com.example.CartUp.attribute.dtos.response.AttributeValueResponse;
 import com.example.CartUp.attribute.entities.AttributeValue;
+import com.example.CartUp.attribute.mappers.AttributeMappers;
+import com.example.CartUp.attribute.mappers.AttributeValueMappers;
 import com.example.CartUp.attribute.repositories.AttributeValueRepository;
 import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
@@ -17,7 +19,7 @@ public class AttributeValueService {
     private final AttributeValueRepository repository;
     private final AttributeService attributeService;
 
-    public UploadAttributeValueResponse uploadAttributeValue(UploadAttributeValueRequest request, Long attributeId) {
+    public AttributeValueResponse uploadAttributeValue(AttributeValueRequest request, Long attributeId) {
         if (!attributeService.existsById(attributeId)) {
             throw new ApplicationException(ErrorCode.ATTRIBUTE_NOT_FOUND);
         }
@@ -33,13 +35,8 @@ public class AttributeValueService {
                 .value(request.getValue())
                 .attribute(attributeService.findAttributeById(attributeId))
                 .build();
-        AttributeValue saved = repository.save(attributeValue);
-        return UploadAttributeValueResponse
-                .builder()
-                .id(saved.getId())
-                .value(saved.getValue())
-                .attributeName(saved.getAttribute().getName())
-                .build();
+          repository.save(attributeValue);
+        return AttributeValueMappers.toAttributeValueResponse(attributeValue);
     }
 
     public void deleteAttributeValue(Long attributeValueId) {
@@ -49,16 +46,5 @@ public class AttributeValueService {
         repository.deleteById(attributeValueId);
     }
 
-    public String getAttributeName(Long attributeValueId) {
 
-        AttributeValue attributeValue = repository.findById(attributeValueId).orElseThrow(() -> new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_NOT_FOUND));
-        return attributeValue.getAttribute().getName();
-    }
-    public List<AttributeValue> findAllById(List<Long> id){
-        List<AttributeValue> attributeValues=  repository.findAllById(id);
-        if(attributeValues.size()!=id.size()){
-            throw new ApplicationException(ErrorCode.ATTRIBUTE_VALUE_NOT_FOUND);
-        }
-        return attributeValues;
-    }
 }

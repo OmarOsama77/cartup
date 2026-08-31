@@ -3,6 +3,7 @@ package com.example.CartUp.brand.services;
 import com.example.CartUp.brand.dto.request.CreateBrandRequest;
 import com.example.CartUp.brand.dto.response.CreateBrandResponse;
 import com.example.CartUp.brand.entities.Brand;
+import com.example.CartUp.brand.mappers.BrandMappers;
 import com.example.CartUp.brand.repositories.BrandRepository;
 import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
@@ -23,8 +24,8 @@ public class BrandService {
                 .builder()
                 .name(request.getBrandName())
                 .build();
-       Brand saved =  repository.save(brand);
-       return CreateBrandResponse.builder().brandId(saved.getId()).brandName(saved.getName()).build();
+       repository.save(brand);
+       return BrandMappers.toCreateBrandResponse(brand);
     }
 
     public void deleteBrand(Long id){

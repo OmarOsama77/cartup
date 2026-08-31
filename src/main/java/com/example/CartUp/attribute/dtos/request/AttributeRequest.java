@@ -5,9 +5,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class UploadAttributeRequest {
-    @NotBlank(message = "Attribute name is required")
-    @Size(min = 2, max = 100, message = "Attribute name must be between 2 and 100 characters")
-
+public class AttributeRequest {
+    @NotBlank(message = "attribute name is required")
+    @Size(min = 3,max = 10, message = "attribute name must be between 2 and 10 chars")
     private String name;
+
 }

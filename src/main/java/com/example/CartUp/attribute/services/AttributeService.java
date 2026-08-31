@@ -1,8 +1,9 @@
 package com.example.CartUp.attribute.services;
 
-import com.example.CartUp.attribute.dtos.request.UploadAttributeRequest;
-import com.example.CartUp.attribute.dtos.response.UploadAttributeResponse;
+import com.example.CartUp.attribute.dtos.request.AttributeRequest;
+import com.example.CartUp.attribute.dtos.response.AttributeResponse;
 import com.example.CartUp.attribute.entities.Attribute;
+import com.example.CartUp.attribute.mappers.AttributeMappers;
 import com.example.CartUp.attribute.repositories.AttributeRepository;
 import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
@@ -15,7 +16,7 @@ public class AttributeService {
     private final AttributeRepository repository;
 
 
-    public UploadAttributeResponse uploadAttribute(UploadAttributeRequest request){
+    public AttributeResponse uploadAttribute(AttributeRequest request){
         request.setName(request.getName().toLowerCase());
        if(repository.existsByName(request.getName())){
            throw new ApplicationException(ErrorCode.ATTRIBUTE_ALREADY_EXISTS);
@@ -24,9 +25,23 @@ public class AttributeService {
                 .builder()
                 .name(request.getName())
                 .build();
-      Attribute saved =  repository.save(attribute);
-      return UploadAttributeResponse.builder().id(saved.getId()).name(saved.getName()).build();
+        repository.save(attribute);
+      return AttributeMappers.toAttributeResponse(attribute);
     }
+
+    public AttributeResponse changeAttributeName(AttributeRequest request,Long attributeId){
+        request.setName(request.getName().toLowerCase());
+        Attribute attribute = repository.findById(attributeId)
+                .orElseThrow(()->new ApplicationException(ErrorCode.ATTRIBUTE_NOT_FOUND));
+
+        attribute.setName(request.getName());
+        repository.save(attribute);
+        return AttributeMappers.toAttributeResponse(attribute);
+    }
+
+
+
+
     public void deleteAttribute(Long id){
         if(!repository.existsById(id)){
             throw new ApplicationException(ErrorCode.ATTRIBUTE_NOT_FOUND);

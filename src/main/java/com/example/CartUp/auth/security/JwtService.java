@@ -1,7 +1,5 @@
 package com.example.CartUp.auth.security;
 
-import com.example.CartUp.shared.exceptions.ApplicationException;
-import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,7 +19,7 @@ public class JwtService {
     @Value("${app.security.jwt.access-expiration}")
     private long accessExpiration;
 
-    public String extractUserEmail(String token){
+    public String extractUserEmail(String token) {
 
         return extractAllClaims(token).getSubject();
     }
@@ -35,24 +33,20 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isAccessTokenValid(String token, UserDetails userDetails){
+    public boolean isAccessTokenValid(String token, UserDetails userDetails) {
         //check on the signature
         final String userEmail = extractUserEmail(token);
         return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    public boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
     public Claims extractAllClaims(String token) {
-        System.out.println("arrived about");
-         try{
-             Claims claims = Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
-             return claims;
-         }catch (Exception e){
-             throw new ApplicationException(ErrorCode.INVALID_REFRESH_TOKEN);
-         }
+
+
+        return Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
 
 
     }

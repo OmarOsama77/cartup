@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
-public class UploadAttributeValueResponse {
+public class AttributeValueResponse {
     private Long id;
     private String value;
-    private String attributeName;
 }
