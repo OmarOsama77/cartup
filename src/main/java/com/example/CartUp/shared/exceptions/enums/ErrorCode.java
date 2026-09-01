@@ -29,7 +29,6 @@ public enum ErrorCode {
     INVENTORY_NOT_FOUND("Inventory not found",HttpStatus.NOT_FOUND),
     DUPLICATED_ATTRIBUTES("Duplicated attributes for the same product variant",HttpStatus.CONFLICT),
     PRODUCT_NOT_FOUND("Product not found",HttpStatus.NOT_FOUND),
-    USER_HAS_NO_CART("User hasn't created cart yet",HttpStatus.NOT_FOUND),
     INSUFFICIENT_INVENTORY("Insufficient inventory",HttpStatus.CONFLICT);
 
     private final String message;

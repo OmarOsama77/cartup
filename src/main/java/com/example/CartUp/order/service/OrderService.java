@@ -30,7 +30,7 @@ public class OrderService {
 
     @Transactional
     public CheckOutResponse checkOut(User user) {
-        Cart cart = cartService.getUserCart(user.getId());
+        Cart cart = cartService.getCartOrThrow(user);
 
         Order order = Order
                 .builder()
@@ -48,9 +48,8 @@ public class OrderService {
         order.setOrderItemList(orderItemList);
         order.setTotalPrice(calcTotal(cart.getCartItemList(), 0));
         orderRepository.save(order);
-        cartService.clearCart(user.getId());
+        cartService.clearCart(user);
 
-        System.out.println("starting from here ya omar");
         return  OrderMappers.toCheckOutResponse(order);
     }
 

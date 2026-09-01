@@ -84,4 +84,11 @@ public class InventoryService {
         }
     }
 
+    public void validateQuantity (Long productVariantId,int quantity){
+        Inventory inventory = repository.findByProductVariantId(productVariantId)
+                .orElseThrow(()->new ApplicationException(ErrorCode.INVENTORY_NOT_FOUND));
+        if(inventory.getAvailableQuantity() < quantity){
+            throw new ApplicationException(ErrorCode.INSUFFICIENT_INVENTORY);
+        }
+    }
 }

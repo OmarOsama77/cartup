@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartService service;
 
+    @GetMapping
+    public ResponseEntity<CartResponse> getCart(
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(service.getCart(user));
+    }
+
     @PostMapping("/items")
     public ResponseEntity<CartItemResponse> addItemToCart(
             @AuthenticationPrincipal User user,
@@ -29,14 +36,8 @@ public class CartController {
 
     }
 
-    @GetMapping
-    public ResponseEntity<CartResponse> getCart(
-            @AuthenticationPrincipal User user
-    ) {
-        return ResponseEntity.ok(service.getCart(user));
-    }
 
-    @PatchMapping("/items/{cartItemId}")
+    @PatchMapping("/items")
     public ResponseEntity<CartItemResponse> updateItemQuantity(
             @AuthenticationPrincipal User user,
            @Valid @RequestBody UpdateQuantityRequest request
@@ -44,7 +45,7 @@ public class CartController {
         return ResponseEntity.ok(service.updateCartItemQuantity(user,request));
     }
     @DeleteMapping("/items/{cartItemId}")
-    public ResponseEntity<Void> deleteProductVariant(
+    public ResponseEntity<Void> deleteProductFromCart(
             @AuthenticationPrincipal User user,
             @PathVariable Long cartItemId
     ) {

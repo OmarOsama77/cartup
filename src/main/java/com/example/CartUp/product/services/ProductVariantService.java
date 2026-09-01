@@ -14,7 +14,9 @@ import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -80,7 +82,5 @@ public class ProductVariantService {
         return productVariantRepository.findById(id).orElseThrow(()->new ApplicationException(ErrorCode.PRODUCT_VARIANT_NOT_FOUND));
     }
 
-    public boolean existsById(Long id){
-        return productVariantRepository.existsById(id);
-    }
+
 }
