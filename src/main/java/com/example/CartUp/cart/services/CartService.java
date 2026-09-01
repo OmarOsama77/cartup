@@ -1,8 +1,7 @@
 package com.example.CartUp.cart.services;
 
 import com.example.CartUp.auth.entities.User;
-import com.example.CartUp.cart.dots.request.AddProductRequest;
-import com.example.CartUp.cart.dots.request.UpdateQuantityRequest;
+import com.example.CartUp.cart.dots.request.CartItemRequest;
 import com.example.CartUp.cart.dots.response.CartItemResponse;
 import com.example.CartUp.cart.dots.response.CartResponse;
 import com.example.CartUp.cart.entities.Cart;
@@ -30,7 +29,7 @@ public class CartService {
     private final InventoryService inventoryService;
 
 
-    public CartItemResponse updateCartItemQuantity(User user, UpdateQuantityRequest request) {
+    public CartItemResponse updateCartItemQuantity(User user, CartItemRequest request) {
         Cart cart = getCartOrThrow(user);
 
         CartItem cartItem = cartItemRepository.findByCartIdAndProductVariantId(cart.getId(), request.getProductVariantId())
@@ -45,7 +44,7 @@ public class CartService {
     }
 
     @Transactional
-    public CartItemResponse addProductToCart(User user, AddProductRequest request) {
+    public CartItemResponse addProductToCart(User user, CartItemRequest request) {
 
         Cart cart = cartRepository.findByUserId(user.getId())
                 .orElseGet(() -> createCart(user));
@@ -76,7 +75,7 @@ public class CartService {
         return CartMappers.fromCartItemToCartItemResponse(cartItem);
     }
 
-    private CartItemResponse addNewCartItem(AddProductRequest request, Cart cart, ProductVariant productVariant) {
+    private CartItemResponse addNewCartItem(CartItemRequest request, Cart cart, ProductVariant productVariant) {
         inventoryService.validateQuantity(request.getProductVariantId(), request.getQuantity());
         CartItem cartItem = CartItem
                 .builder()
