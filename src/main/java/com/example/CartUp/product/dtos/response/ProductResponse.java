@@ -11,11 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProductDto {
+public class ProductResponse {
     private Long id;
     private String name;
     private String description;
     private Long brandId;
     private Long subCatId;
-    private List<ProductVariantDto> productVariants;
+    private List<ProductVariantResponse> productVariants;
 }

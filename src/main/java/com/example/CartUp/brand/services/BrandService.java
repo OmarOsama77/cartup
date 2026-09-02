@@ -17,7 +17,7 @@ public class BrandService {
     private final BrandRepository repository;
 
     public CreateBrandResponse createBrand(CreateBrandRequest request) {
-        if(repository.existsByNameIgnoreCase(request.getBrandName())){
+        if(repository.existsByNameIgnoreCase(request.getBrandName().trim())){
             throw new ApplicationException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
         Brand brand = Brand
@@ -37,4 +37,5 @@ public class BrandService {
     public Brand findBrandById(Long id){
         return repository.findById(id).orElseThrow(()->new ApplicationException(ErrorCode.BRAND_NOT_FOUND));
     }
+
 }

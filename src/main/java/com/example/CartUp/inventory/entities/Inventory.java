@@ -20,7 +20,7 @@ public class Inventory {
 
     private int availableQuantity;
 
-    private int reservedQuantity;
+
 
     @OneToOne
 

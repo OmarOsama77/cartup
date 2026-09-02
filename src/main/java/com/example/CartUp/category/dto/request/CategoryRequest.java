@@ -8,12 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class CreateSubCategoryRequest {
-    @NotBlank(message = "Sub category name is required")
-    @Size(min = 2, max = 100, message = "Sub category name must be between 2 and 100 characters")
-    private String subCatName;
-
+public class CategoryRequest {
+    @NotBlank(message = "Category name is required")
+    @Size(min = 2, max = 100)
+    private String catName;
 }

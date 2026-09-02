@@ -1,9 +1,7 @@
 package com.example.CartUp.category.controllers;
 
-import com.example.CartUp.category.dto.request.CreateCategoryRequest;
-import com.example.CartUp.category.dto.request.CreateSubCategoryRequest;
-import com.example.CartUp.category.dto.response.CreateCategoryResponse;
-import com.example.CartUp.category.dto.response.CreateSubCategoryResponse;
+import com.example.CartUp.category.dto.request.SubCategoryRequest;
+import com.example.CartUp.category.dto.response.SubCategoryResponse;
 import com.example.CartUp.category.services.SubCategoryService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -19,8 +17,8 @@ public class SubCategoryController {
     private final SubCategoryService service;
 
     @PostMapping("/categories/{categoryId}/subcategories")
-    public ResponseEntity<CreateSubCategoryResponse> createSubCategory(
-            @Valid @RequestBody CreateSubCategoryRequest request,
+    public ResponseEntity<SubCategoryResponse> createSubCategory(
+            @Valid @RequestBody SubCategoryRequest request,
             @PathVariable Long categoryId
     ) {
         return ResponseEntity.ok(

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateSubCategoryResponse {
+public class SubCategoryResponse {
     private Long subCatId;
     private String subCatName;
 }

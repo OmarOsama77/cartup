@@ -1,8 +1,6 @@
 package com.example.CartUp.inventory.services;
 
 import com.example.CartUp.cart.entities.CartItem;
-import com.example.CartUp.inventory.dtos.request.UpdateReservedQuantityRequest;
-import com.example.CartUp.inventory.dtos.response.InventoryResponse;
 import com.example.CartUp.inventory.entities.Inventory;
 import com.example.CartUp.inventory.repositories.InventoryRepository;
 import com.example.CartUp.product.entities.ProductVariant;
@@ -10,7 +8,6 @@ import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,34 +26,9 @@ public class InventoryService {
         Inventory inventory = Inventory
                 .builder()
                 .availableQuantity(availableQuantity)
-                .reservedQuantity(0)
                 .productVariant(productVariant)
                 .build();
         return repository.save(inventory);
-    }
-
-    @Transactional
-    public InventoryResponse reserveProduct(UpdateReservedQuantityRequest request, Long productVariantId) {
-        Inventory inventory = repository.findByProductVariantId(productVariantId)
-                .orElseThrow(() -> new ApplicationException(ErrorCode.INVENTORY_NOT_FOUND));
-
-        if (inventory.getAvailableQuantity() < request.getReservedQuantity()) {
-            throw new ApplicationException(ErrorCode.INSUFFICIENT_INVENTORY);
-        }
-        inventory.setReservedQuantity(inventory.getReservedQuantity() + request.getReservedQuantity());
-        inventory.setAvailableQuantity(inventory.getAvailableQuantity() - request.getReservedQuantity());
-        return InventoryResponse
-                .builder()
-                .productVariantId(inventory.getProductVariant().getId())
-                .reservedQuantity(inventory.getReservedQuantity())
-                .inventoryId(inventory.getInventoryId())
-                .availableQuantity(inventory.getAvailableQuantity())
-                .build();
-    }
-
-
-    public int getAvailableQuantity(Long productVariantId) {
-        return repository.getAvailableQuantity(productVariantId);
     }
 
 
@@ -84,10 +56,10 @@ public class InventoryService {
         }
     }
 
-    public void validateQuantity (Long productVariantId,int quantity){
+    public void validateQuantity(Long productVariantId, int quantity) {
         Inventory inventory = repository.findByProductVariantId(productVariantId)
-                .orElseThrow(()->new ApplicationException(ErrorCode.INVENTORY_NOT_FOUND));
-        if(inventory.getAvailableQuantity() < quantity){
+                .orElseThrow(() -> new ApplicationException(ErrorCode.INVENTORY_NOT_FOUND));
+        if (inventory.getAvailableQuantity() < quantity) {
             throw new ApplicationException(ErrorCode.INSUFFICIENT_INVENTORY);
         }
     }

@@ -5,18 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Map;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductVariantDto {
+public class ProductVariantResponse {
     private Long id;
     private double price;
     private Map<String,String> attributeValues;
-    private int reservedQuantity;
     private int availableQuantity;
 
 }

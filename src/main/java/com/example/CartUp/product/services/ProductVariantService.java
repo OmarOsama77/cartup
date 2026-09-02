@@ -4,8 +4,8 @@ import com.example.CartUp.attribute.entities.AttributeValue;
 import com.example.CartUp.attribute.services.AttributeValueService;
 import com.example.CartUp.inventory.entities.Inventory;
 import com.example.CartUp.inventory.services.InventoryService;
-import com.example.CartUp.product.dtos.request.UploadProductVariantRequest;
-import com.example.CartUp.product.dtos.response.ProductVariantDto;
+import com.example.CartUp.product.dtos.request.ProductVariantRequest;
+import com.example.CartUp.product.dtos.response.ProductVariantResponse;
 import com.example.CartUp.product.entities.ProductVariant;
 import com.example.CartUp.product.mappers.ProductsMappers;
 import com.example.CartUp.product.repositories.ProductVariantRepository;
@@ -26,7 +26,7 @@ public class ProductVariantService {
     private final ProductVariantRepository productVariantRepository;
     private final InventoryService inventoryService;
 
-    public ProductVariantDto uploadProductVariant(UploadProductVariantRequest request, Long productId) {
+    public ProductVariantResponse uploadProductVariant(ProductVariantRequest request, Long productId) {
 
         List<AttributeValue> attributeValues = attributeValueService.findAllById(request.getAttributes());
 
@@ -42,11 +42,10 @@ public class ProductVariantService {
                 .product(productService.findById(productId))
                 .build();
 
-        ProductVariant saved = productVariantRepository.save(productVariant);
-        Inventory inventory=  inventoryService.createInventory(saved,request.getAvailableQuantity());
-
-        saved.setInventory(inventory);
-        return ProductsMappers.fromProductVariantToProductVariantDto(productVariant);
+        productVariantRepository.save(productVariant);
+       Inventory inventory = inventoryService.createInventory(productVariant,request.getAvailableQuantity());
+        productVariant.setInventory(inventory);
+        return ProductsMappers.toProductVariantDto(productVariant);
 
     }
 

@@ -1,19 +1,22 @@
 package com.example.CartUp.product.services;
 
+import com.example.CartUp.brand.entities.Brand;
 import com.example.CartUp.brand.services.BrandService;
+import com.example.CartUp.category.entities.SubCategory;
 import com.example.CartUp.category.services.SubCategoryService;
-import com.example.CartUp.product.dtos.request.UploadProductRequest;
-import com.example.CartUp.product.dtos.response.ProductDto;
+import com.example.CartUp.product.dtos.request.ProductRequest;
+import com.example.CartUp.shared.dto.PageResponse;
+import com.example.CartUp.product.dtos.response.ProductResponse;
 import com.example.CartUp.product.entities.Product;
 import com.example.CartUp.product.mappers.ProductsMappers;
 import com.example.CartUp.product.repositories.ProductRepository;
 import com.example.CartUp.shared.exceptions.ApplicationException;
 import com.example.CartUp.shared.exceptions.enums.ErrorCode;
+import com.example.CartUp.shared.mappers.SharedMappers;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -23,45 +26,42 @@ public class ProductService {
     private SubCategoryService subCategoryService;
 
 
-    public List<ProductDto> getProducts() {
-        List<Product> products = productsRepository.findAll();
+    public PageResponse<ProductResponse> getProducts(Pageable pageable) {
+        Page<Product> products = productsRepository.findAll(pageable);
 
+        Page<ProductResponse> productDto =
+                products.map(ProductsMappers::toProductDto);
 
-        return products.stream().map(ProductsMappers::fromProductToProductDto).collect(Collectors.toList());
+        return SharedMappers.toPageResponse(productDto);
 
     }
 
-    public ProductDto uploadProduct(UploadProductRequest request) {
+    public ProductResponse uploadProduct(ProductRequest request) {
+        Brand brand = brandService.findBrandById(request.getBrandId());
+        SubCategory subCategory = subCategoryService.findSubCatById(request.getSubCatId());
+
         if (productsRepository.existsByNameAndSubCategory_IdAndBrand_Id(request.getName(), request.getSubCatId(), request.getBrandId())) {
             //already exists
             throw new ApplicationException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
+
         //insert it
         Product product = Product
                 .builder()
                 .name(request.getName())
                 .description(request.getDescription())
-                .brand(brandService.findBrandById(request.getBrandId()))
-                .subCategory(subCategoryService.findSubCatById(request.getSubCatId()))
+                .brand(brand)
+                .subCategory(subCategory)
                 .build();
 
-        Product saved = productsRepository.save(product);
+        productsRepository.save(product);
 
-        return ProductDto.builder()
-                .id(saved.getId())
-                .name(saved.getName())
-                .description(saved.getDescription())
-                .brandId(saved.getBrand().getId())
-                .subCatId(saved.getSubCategory().getId())
-                .productVariants(null)
-                .build();
+        return ProductsMappers.toProductDto(product);
     }
 
-    public boolean existsById(Long id) {
-        return productsRepository.existsById(id);
-    }
 
     public Product findById(Long id) {
         return productsRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.PRODUCT_NOT_FOUND));
     }
+
 }
