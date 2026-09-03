@@ -31,7 +31,7 @@ public class ProductVariant {
     @ManyToMany
     @JoinTable(
             name = "variant_attribute_values",
-            joinColumns = @JoinColumn(name = "product_varient_id"),
+            joinColumns = @JoinColumn(name = "product_variant_id"),
             inverseJoinColumns = @JoinColumn(name = "attribute_value_id")
     )
     private List<AttributeValue> attributeValues;

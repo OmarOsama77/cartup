@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long inventoryId;
 
     private int availableQuantity;
